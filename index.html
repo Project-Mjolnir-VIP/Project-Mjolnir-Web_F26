@@ -70,6 +70,7 @@
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
+            width: 100%;
         }
 
         .hidden { display: none !important; }
@@ -256,7 +257,7 @@
         }
 
         /* ==========================================================================
-           5. UNIFIED SECTION HEADERS (LEFT-ALIGNED + TOP-RIGHT CONTROLS)
+           5. UNIFIED SECTION HEADERS (STANDARD GRID ALIGNMENT)
            ========================================================================== */
         .section {
             padding: 96px 0;
@@ -314,7 +315,10 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+            user-select: none;
         }
+
+        .scroll-btn * { pointer-events: none; }
 
         .scroll-btn:hover {
             border-color: var(--color-accent);
@@ -361,7 +365,7 @@
             width: 100%;
         }
 
-        .hero-content { max-width: 680px; }
+        .hero-content { max-width: 680px; text-align: left; }
 
         .hero-accent-line {
             width: 50px;
@@ -398,7 +402,7 @@
             max-width: 700px;
         }
 
-        .attribute-item { flex: 1; }
+        .attribute-item { flex: 1; text-align: left; }
         .attribute-title { font-size: 14px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
         .attribute-desc { font-size: 12px; color: rgba(255, 255, 255, 0.7); line-height: 1.4; }
         .attribute-divider { width: 1px; height: 40px; background-color: rgba(255, 255, 255, 0.15); align-self: center; }
@@ -543,160 +547,230 @@
             padding: 32px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             box-shadow: var(--box-shadow);
+            text-align: left;
         }
 
-        .spec-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--color-border);
-            font-size: 14px;
-        }
-
-        /* ==========================================================================
-           9. PROCESS TABS SECTION (FABRICATION PHASES)
-           ========================================================================== */
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--color-border);
-        }
-
-        .tab-btn {
-            background: #e2e8f0;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            color: var(--color-text-muted);
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: var(--transition);
-        }
-
-        .tab-btn:hover { color: var(--color-text-main); background: #cbd5e1; }
-        .tab-btn.active {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
-        }
-
-        .tab-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 32px;
-            align-items: center;
-        }
-
-        @media (min-width: 1024px) {
-            .tab-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        .tab-image {
+        .hotspot-feature-img {
             width: 100%;
-            height: 300px;
+            height: 220px;
             object-fit: cover;
             border-radius: var(--radius-md);
+            margin-bottom: 20px;
             border: 1px solid var(--color-border);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
         }
 
         /* ==========================================================================
-           10. SPECS CATALOG GRID
+           9. SCROLLABLE TIMELINE SECTION (PERFECTLY LEFT-ALIGNED & FIXED ASPECT RATIO)
            ========================================================================== */
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 32px;
+        .timeline-section {
+            position: relative;
+            height: 350vh;
+            border-bottom: 1px solid var(--color-border);
+            background: #f8fafc;
         }
 
-        .filter-btn {
-            background: #e2e8f0;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            color: var(--color-text-muted);
-            padding: 10px 18px;
+        .timeline-sticky-wrapper {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            padding: 32px 0;
+        }
+
+        .timeline-nav-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            padding: 10px 0;
+            margin-top: 16px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-line-bg {
+            position: absolute;
+            top: 22px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(15, 23, 42, 0.1);
+            z-index: 1;
             border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 700;
+        }
+
+        .timeline-line-progress {
+            position: absolute;
+            top: 22px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #f97316, #ea580c);
+            z-index: 2;
+            border-radius: var(--radius-full);
+            transition: width 0.15s ease-out;
+        }
+
+        .timeline-nodes {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            background: none;
+            border: none;
             cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .timeline-node-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-full);
+            background: #ffffff;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
             transition: var(--transition);
         }
 
-        .filter-btn:hover { background: #cbd5e1; color: var(--color-text-main); }
-        .filter-btn.active {
+        .timeline-node.active .timeline-node-circle {
             background: var(--color-accent);
             border-color: var(--color-accent);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+            transform: scale(1.2);
+            box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);
         }
 
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+        .timeline-track-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 0 20px;
         }
 
-        .spec-card {
+        .timeline-track {
+            display: flex;
+            gap: 32px;
+            padding-left: max(24px, calc((100vw - 1280px)/2 + 24px));
+            padding-right: 50vw;
+            will-change: transform;
+        }
+
+        .timeline-card-wrapper {
+            flex: 0 0 clamp(320px, 58vw, 680px);
+            max-width: 680px;
+        }
+
+        .timeline-card {
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: 24px;
-            transition: var(--transition);
+            padding: 32px;
             box-shadow: var(--box-shadow);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            text-align: left;
         }
 
-        .spec-card:hover {
-            border-color: var(--color-accent);
-            transform: translateY(-4px);
+        .timeline-card:hover {
+            border-color: var(--color-accent-border);
             box-shadow: var(--box-shadow-hover);
         }
 
-        /* ==========================================================================
-           11. FAQ ACCORDION
-           ========================================================================== */
-        .faq-item {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            margin-bottom: 16px;
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-        }
-
-        .faq-header {
-            width: 100%;
-            padding: 20px;
-            background: none;
-            border: none;
-            color: var(--color-text-main);
-            font-size: 16px;
-            font-weight: 700;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
             align-items: center;
-            cursor: pointer;
         }
 
-        .faq-body {
-            padding: 0 20px 20px;
-            color: var(--color-text-muted);
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 1.6;
+        /* FIXED ASPECT RATIO IMAGE WRAPPER */
+        .timeline-card-image-wrap {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            position: relative;
+            background-color: var(--color-bg-page);
+        }
+
+        .timeline-card-image {
+            width: 125%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            will-change: transform;
+            transform: translate3d(0, 0, 0) scale(1.15);
+        }
+
+        /* Mobile Adjustments for Touch Swipe */
+        @media (max-width: 768px) {
+            .timeline-section {
+                height: auto;
+                padding: 64px 0;
+            }
+            .timeline-sticky-wrapper {
+                position: relative;
+                top: 0;
+                height: auto;
+                overflow: visible;
+                padding: 0;
+            }
+            .timeline-track-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 20px;
+            }
+            .timeline-track-container::-webkit-scrollbar { display: none; }
+            .timeline-track {
+                transform: none !important;
+                padding-left: 24px;
+                padding-right: 24px;
+                gap: 20px;
+            }
+            .timeline-card-wrapper {
+                scroll-snap-align: center;
+                flex: 0 0 85vw;
+            }
+            .timeline-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .timeline-card-image-wrap {
+                height: 200px;
+            }
+            .timeline-card-image {
+                width: 100%;
+                transform: none !important;
+            }
         }
 
         /* ==========================================================================
-           12. FEATURED STORIES SECTION
+           10. FEATURED STORIES SECTION
            ========================================================================== */
         .featured-stories {
             padding: 96px 0;
@@ -726,6 +800,7 @@
             transition: var(--transition);
             cursor: pointer;
             box-shadow: var(--box-shadow);
+            text-align: left;
         }
 
         .story-card:hover {
@@ -773,7 +848,43 @@
         .story-partner { color: var(--color-text-muted); font-family: var(--font-mono); font-weight: 600; }
 
         /* ==========================================================================
-           13. FLOATING PHOTO GALLERY SECTION
+           11. FAQ ACCORDION SECTION
+           ========================================================================== */
+        .faq-item {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            text-align: left;
+        }
+
+        .faq-header {
+            width: 100%;
+            padding: 20px;
+            background: none;
+            border: none;
+            color: var(--color-text-main);
+            font-size: 16px;
+            font-weight: 700;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-body {
+            padding: 0 20px 20px;
+            color: var(--color-text-muted);
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           12. FLOATING PHOTO GALLERY SECTION
            ========================================================================== */
         .floating-gallery-section {
             position: relative;
@@ -832,6 +943,7 @@
             display: inline-block;
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: left;
         }
 
         .floating-card-title { color: #ffffff; font-weight: 600; }
@@ -848,6 +960,7 @@
             -webkit-backdrop-filter: none;
             z-index: 5;
             margin-top: 16px;
+            text-align: left;
         }
 
         .gallery-pill {
@@ -898,7 +1011,7 @@
         }
 
         /* ==========================================================================
-           14. MODAL
+           13. MODAL
            ========================================================================== */
         .modal-overlay {
             position: fixed;
@@ -921,6 +1034,7 @@
             width: 100%;
             position: relative;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            text-align: left;
         }
 
         .form-group { margin-bottom: 16px; }
@@ -950,13 +1064,14 @@
         }
 
         /* ==========================================================================
-           15. SITE FOOTER
+           14. SITE FOOTER
            ========================================================================== */
         .site-footer {
             background-color: #000000;
             color: #ffffff;
             padding: 72px 0 80px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
         }
 
         .footer-container {
@@ -1034,15 +1149,14 @@
 
             <nav class="nav-links">
                 <a href="#features">Features</a>
-                <a href="#process">Phases</a>
-                <a href="#specs">Specs</a>
-                <a href="#faq">FAQ</a>
+                <a href="#process">Timeline</a>
                 <a href="#stories">Stories</a>
+                <a href="#faq">FAQ</a>
             </nav>
 
             <div class="nav-cta">
                 <button onclick="openModal()" class="btn btn-secondary">
-                    <span>Action Button</span>
+                    <span>Build Your Bike</span>
                     <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
                 </button>
             </div>
@@ -1055,10 +1169,9 @@
         <!-- Mobile Nav Drawer -->
         <div id="mobile-nav" class="mobile-nav">
             <a href="#features" onclick="toggleMobileNav()">Features</a>
-            <a href="#process" onclick="toggleMobileNav()">Phases</a>
-            <a href="#specs" onclick="toggleMobileNav()">Specs</a>
-            <a href="#faq" onclick="toggleMobileNav()">FAQ</a>
+            <a href="#process" onclick="toggleMobileNav()">Timeline</a>
             <a href="#stories" onclick="toggleMobileNav()">Stories</a>
+            <a href="#faq" onclick="toggleMobileNav()">FAQ</a>
             <button onclick="openModal(); toggleMobileNav();" class="btn btn-accent" style="width: 100%; margin-top: 12px;">Action Button</button>
         </div>
     </header>
@@ -1069,7 +1182,7 @@
             <div class="hero-content">
                 <div class="hero-accent-line"></div>
                 <h1>active<br>adaptive<br><span class="text-accent">anywhere</span></h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Project Mjolnir is an open-source adaptive mountain bike project developed for wheelchair users</p>
                 <div class="hero-actions">
                     <a href="#features" class="btn btn-primary">
                         <span>Learn More</span>
@@ -1084,18 +1197,18 @@
 
             <div class="hero-attributes">
                 <div class="attribute-item">
-                    <div class="attribute-title">Feature 1</div>
-                    <div class="attribute-desc">Lorem ipsum dolor sit amet</div>
+                    <div class="attribute-title">Open Source</div>
+                    <div class="attribute-desc">made possible with a community of engineers and enthusiasts</div>
                 </div>
                 <div class="attribute-divider"></div>
                 <div class="attribute-item">
-                    <div class="attribute-title">Feature 2</div>
-                    <div class="attribute-desc">Consectetur adipiscing elit</div>
+                    <div class="attribute-title">Modular, Customizable Design</div>
+                    <div class="attribute-desc">tailor your bike to your specific needs and preferences</div>
                 </div>
                 <div class="attribute-divider"></div>
                 <div class="attribute-item">
-                    <div class="attribute-title">Feature 3</div>
-                    <div class="attribute-desc">Sed do eiusmod tempor</div>
+                    <div class="attribute-title">Built by Enthusiasts, For Enthusiasts</div>
+                    <div class="attribute-desc">designed with passion and expertise by those who love cycling</div>
                 </div>
             </div>
         </div>
@@ -1119,7 +1232,7 @@
                 <div class="section-header-content">
                     <span class="badge">Meet Mjolnir</span>
                     <h2 class="section-title">Feature <span class="text-accent">Breakdown</span></h2>
-                    <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+                    <p class="section-subtitle">Discover the highly modular and highly customizable bike worthy to fit your MTB needs</p>
                 </div>
                 <div class="header-controls">
                     <button class="scroll-btn" onclick="prevHotspot()" aria-label="Previous feature">
@@ -1134,7 +1247,7 @@
             <div class="hotspot-layout">
                 <div class="hotspot-canvas">
                     <div class="hotspot-image-container">
-                        <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=1200&auto=format&fit=crop" alt="Blueprint Mockup">
+                        <img src="./featuresphotos/mjolnirsideshot.JPEG" alt="Blueprint Mockup">
 
                         <div class="hotspot-pin" style="top: 28%; left: 22%;" onclick="selectHotspot(1)">
                             <div class="hotspot-pulse"></div>
@@ -1159,65 +1272,118 @@
                     <div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
                             <span class="badge" id="hotspot-num">FEATURE 1</span>
-                            <span class="font-mono text-muted" style="font-size: 12px; font-weight: 700;">SPECIFICATION</span>
                         </div>
-                        <h3 id="hotspot-title" style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Feature 1</h3>
-                        <p id="hotspot-desc" class="text-muted" style="font-size: 15px; margin-bottom: 24px; font-weight: 500;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
-                        
-                        <div id="hotspot-specs"></div>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-border);">
-                        <span class="text-muted font-mono" style="font-size: 12px; font-weight: 700;">Navigate</span>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="prevHotspot()" class="btn btn-light-secondary" style="padding: 8px 14px;">←</button>
-                            <button onclick="nextHotspot()" class="btn btn-light-secondary" style="padding: 8px 14px;">→</button>
-                        </div>
+                        <img id="hotspot-img" src="./featuresphotos/mjolnirBackwheel.JPEG" class="hotspot-feature-img" alt="Feature Preview">
+                        <h3 id="hotspot-title" style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">All Terrains Ready</h3>
+                        <p id="hotspot-desc" class="text-muted" style="font-size: 15px; font-weight: 500;">Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MILESTONES / PROCESS SECTION -->
-    <section id="process" class="section">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-header-content">
-                    <span class="badge">Active Development</span>
-                    <h2 class="section-title" id="process-section-title">Phase 1: <span class="text-accent">Lorem</span></h2>
-                </div>
-                <div class="header-controls">
-                    <button class="scroll-btn" onclick="cyclePhase(-1)" aria-label="Previous phase">
-                        <i data-lucide="chevron-left"></i>
-                    </button>
-                    <button class="scroll-btn" onclick="cyclePhase(1)" aria-label="Next phase">
-                        <i data-lucide="chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="tab-buttons">
-                <button class="tab-btn active" id="tab-btn-phase1" onclick="switchTab('phase1')">Phase 1: Lorem</button>
-                <button class="tab-btn" id="tab-btn-phase2" onclick="switchTab('phase2')">Phase 2: Ipsum</button>
-                <button class="tab-btn" id="tab-btn-phase3" onclick="switchTab('phase3')">Phase 3: Dolor</button>
-                <button class="tab-btn" id="tab-btn-phase4" onclick="switchTab('phase4')">Phase 4: Sit</button>
-            </div>
-
-            <div class="card">
-                <div class="tab-grid">
-                    <div>
-                        <span id="tab-status" class="badge">STATUS OK</span>
-                        <h3 id="tab-title" style="font-size: 24px; margin-bottom: 12px; color: var(--color-text-main);">Phase 1: Lorem Ipsum Title</h3>
-                        <p id="tab-desc" class="text-muted" style="font-size: 15px; margin-bottom: 20px; font-weight: 500;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-                        <ul id="tab-bullets" style="padding-left: 20px; font-size: 15px; color: var(--color-text-muted); font-weight: 600; line-height: 1.7;"></ul>
+    <!-- SCROLLABLE INTERACTIVE TIMELINE SECTION -->
+    <section id="process" class="timeline-section">
+        <div class="timeline-sticky-wrapper">
+            <div class="container">
+                <!-- Standard Left-Aligned Section Header -->
+                <div class="section-header" style="margin-bottom: 0;">
+                    <div class="section-header-content">
+                        <span class="badge">Active Development</span>
+                        <h2 class="section-title">Development <span class="text-accent">Timeline</span></h2>
                     </div>
-                    <img id="tab-image" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop" class="tab-image" alt="Phase Preview">
+                </div>
+
+                <!-- Left-Aligned Timeline Nodes & Progress Bar -->
+                <div class="timeline-nav-wrapper">
+                    <div class="timeline-line-bg"></div>
+                    <div class="timeline-line-progress" id="timelineProgressBar"></div>
+                    <div class="timeline-nodes">
+                        <button class="timeline-node active" onclick="scrollToPhase(0)">
+                            <div class="timeline-node-circle">01</div>
+                        </button>
+                        <button class="timeline-node" onclick="scrollToPhase(1)">
+                            <div class="timeline-node-circle">02</div>
+                        </button>
+                        <button class="timeline-node" onclick="scrollToPhase(2)">
+                            <div class="timeline-node-circle">03</div>
+                        </button>
+                        <button class="timeline-node" onclick="scrollToPhase(3)">
+                            <div class="timeline-node-circle">04</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-track-container" id="timelineTrackContainer">
+                <div class="timeline-track" id="timelineTrack">
+                    <!-- Phase 1 Card -->
+                    <div class="timeline-card-wrapper">
+                        <div class="timeline-card">
+                            <div class="timeline-grid">
+                                <div>
+                                    <span class="badge">Jan 2023</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Approval of Project Mjolnir</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">In January 2023, Project Mjolnir received official approval and a funding allocation of $15,000 from NYU. This milestone marked the commencement of the design phase for the first adaptive mountain bike.</p>
+                                </div>
+                                <div class="timeline-card-image-wrap">
+                                    <img src="./galleryphotos/IMG_7122.JPG" class="timeline-card-image" alt="Phase 1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 Card -->
+                    <div class="timeline-card-wrapper">
+                        <div class="timeline-card">
+                            <div class="timeline-grid">
+                                <div>
+                                    <span class="badge">Feb 2023</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Industry Support Secured</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Significant support was secured for the project in February 2023. SRAM bicycle components, Specialized Bicycles, and Fictiv contributed to Project Mjolnir, providing assistance with a combined value of approximately $17,000.</p>
+                                </div>
+                                <div class="timeline-card-image-wrap">
+                                    <img src="./galleryphotos/IMG_4034.JPG" class="timeline-card-image" alt="Phase 2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 Card -->
+                    <div class="timeline-card-wrapper">
+                        <div class="timeline-card">
+                            <div class="timeline-grid">
+                                <div>
+                                    <span class="badge">Mar 2023</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Design Freeze and Manufacturing Preparations</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">By March 2023, the project reached a design freeze on the concept, and the first part files were sent out for manufacture. This step ensured the team was ready to move from design to fabrication.</p>
+                                </div>
+                                <div class="timeline-card-image-wrap">
+                                    <img src="./galleryphotos/Copy of IMG_7361.JPG" class="timeline-card-image" alt="Phase 3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4 Card -->
+                    <div class="timeline-card-wrapper">
+                        <div class="timeline-card">
+                            <div class="timeline-grid">
+                                <div>
+                                    <span class="badge">Apr 2023</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">First Assembly in New York</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">The first set of manufactured parts arrived at NYU's ITP in Brooklyn in April 2023. Over the previous three months, the team had collaborated remotely to finalise the design. Once the parts arrived, the entire bike was assembled in only three days, requiring only minor alterations.<br><br>This achievement resulted in the creation of the first adaptive mountain bike in New York City, which also became the first adaptive mountain bike to be ridden across the Brooklyn Bridge. The bike was subsequently deployed to Freshkills Park in July 2023, where wheelchair user Rachel Wallenbach became the first person to participate in adaptive mountain biking in NYC.</p>
+                                </div>
+                                <div class="timeline-card-image-wrap">
+                                    <img src="./galleryphotos/IMG_8294.jpeg" class="timeline-card-image" alt="Phase 4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- FEATURED STORIES SECTION -->
     <section id="stories" class="featured-stories">
@@ -1283,7 +1449,7 @@
         </div>
     </section>
 
-        <!-- FAQ SECTION -->
+    <!-- FAQ SECTION -->
     <section id="faq" class="section">
         <div class="container" style="max-width: 768px;">
             <div class="section-header">
@@ -1291,26 +1457,45 @@
                     <span class="badge">FAQ</span>
                     <h2 class="section-title">Frequently Asked <span class="text-accent">Questions</span></h2>
                 </div>
-                
             </div>
 
             <div class="faq-item">
                 <button class="faq-header" onclick="toggleFaq(this)">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit?</span>
+                    <span>Who is the bike designed for?</span>
                     <i data-lucide="chevron-down" style="width: 18px; height: 18px; color: var(--color-text-muted);"></i>
                 </button>
                 <div class="faq-body hidden">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    This adaptive mountain bike is designed for individuals with mobility impairments who want access to outdoor trails and off-road terrain.
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-header" onclick="toggleFaq(this)">
-                    <span>Sed do eiusmod tempor incididunt ut labore?</span>
+                    <span>Is the bike customizable?</span>
                     <i data-lucide="chevron-down" style="width: 18px; height: 18px; color: var(--color-text-muted);"></i>
                 </button>
                 <div class="faq-body hidden">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel hendrerit libero.
+                    Yes. The frame and control system are modular, allowing adjustments based on the rider's mobility level and comfort needs.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header" onclick="toggleFaq(this)">
+                    <span>How can I request a demo or get involved?</span>
+                    <i data-lucide="chevron-down" style="width: 18px; height: 18px; color: var(--color-text-muted);"></i>
+                </button>
+                <div class="faq-body hidden">
+                    You can submit a request through our contact form to schedule a demo, partner with us, or contribute to the project.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header" onclick="toggleFaq(this)">
+                    <span>What is the estimated cost?</span>
+                    <i data-lucide="chevron-down" style="width: 18px; height: 18px; color: var(--color-text-muted);"></i>
+                </button>
+                <div class="faq-body hidden">
+                    Costs vary depending on configuration and components. We aim to keep the design accessible and scalable for wider adoption.
                 </div>
             </div>
         </div>
@@ -1396,10 +1581,10 @@
                 <div class="gallery-overlay-content">
                     <div class="gallery-pill">
                         <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #ffaa40;"></i>
-                        <span>Lorem ipsum dolor sit</span>
+                        <span>Project Mjolnir</span>
                     </div>
-                    <h2 class="gallery-overlay-title">Lorem ipsum dolor <span class="text-accent">sit amet, consectetur</span></h2>
-                    <p class="gallery-overlay-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <h2 class="gallery-overlay-title">Interested in <br> <span class="text-accent">being worthy?</span></h2>
+                    <p class="gallery-overlay-desc">join our community of inclusive cycling enthusiasts or reach out to say hi!</p>
                     <div class="gallery-overlay-buttons">
                         <a href="#" class="btn btn-primary">
                             <span>About the Team</span>
@@ -1477,52 +1662,39 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Render Lucide Icons
-        lucide.createIcons();
-
         /* --- STORIES SCROLL CONTROL --- */
         function scrollStories(direction) {
             const track = document.getElementById('storiesTrack');
-            track.scrollBy({ left: direction * 440, behavior: 'smooth' });
+            if (track) {
+                track.scrollBy({ left: direction * 440, behavior: 'smooth' });
+            }
         }
 
         /* --- 1. HOTSPOT DATA & LOGIC --- */
         const hotspots = [
             {
                 id: 1,
-                title: "Feature 1",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                specs: [
-                    { label: "Spec Label 1", val: "Value 100" },
-                    { label: "Spec Label 2", val: "Value 200" }
-                ]
+                title: "All Terrains Ready",
+                desc: "Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain",
+                img: "./featuresphotos/mjolnirBackwheel.JPEG"
             },
             {
                 id: 2,
-                title: "Feature 2",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-                specs: [
-                    { label: "Spec Label 1", val: "Value 300" },
-                    { label: "Spec Label 2", val: "Value 400" }
-                ]
+                title: "Performance Suspension",
+                desc: "Best in class suspension with up to 200mm of travel at the rear ensuring superior traction and impact isolation for the rider",
+                img: "./featuresphotos/MjolnirSuspension.JPG"
             },
             {
                 id: 3,
-                title: "Feature 3",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.",
-                specs: [
-                    { label: "Spec Label 1", val: "Value 500" },
-                    { label: "Spec Label 2", val: "Value 600" }
-                ]
+                title: "Smooth Ride",
+                desc: "Jackshaft pivot for drive and suspension systems ensures 0 chain growth during movement keeping the suspension silky smooth over the rough stuff",
+                img: "./featuresphotos/chainTension.JPEG"
             },
             {
                 id: 4,
-                title: "Feature 4",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.",
-                specs: [
-                    { label: "Spec Label 1", val: "Value 700" },
-                    { label: "Spec Label 2", val: "Value 800" }
-                ]
+                title: "Fully Customizable",
+                desc: "Interchangeable frame components lets you adjust the bike to your needs and component choices such as brakes, drivetrain, and wheel size",
+                img: "./featuresphotos/MjolnirCustomPart.JPG"
             }
         ];
 
@@ -1545,129 +1717,143 @@
 
         function renderHotspot() {
             const data = hotspots[currentIdx];
+            if (!data) return;
+
             document.getElementById('hotspot-num').innerText = `FEATURE ${data.id}`;
             document.getElementById('hotspot-title').innerText = data.title;
             document.getElementById('hotspot-desc').innerText = data.desc;
+            
+            const imgElem = document.getElementById('hotspot-img');
+            if (imgElem && data.img) {
+                imgElem.src = data.img;
+            }
 
             [1, 2, 3, 4].forEach(i => {
-                const pin = document.getElementById(`hotspot-pin-${i}`).parentElement;
-                if (i === data.id) {
-                    pin.classList.add('active');
-                } else {
-                    pin.classList.remove('active');
+                const pin = document.getElementById(`hotspot-pin-${i}`);
+                if (pin && pin.parentElement) {
+                    if (i === data.id) {
+                        pin.parentElement.classList.add('active');
+                    } else {
+                        pin.parentElement.classList.remove('active');
+                    }
                 }
             });
-
-            document.getElementById('hotspot-specs').innerHTML = data.specs.map(s => `
-                <div class="spec-item">
-                    <span class="text-muted font-mono" style="font-weight: 700;">${s.label}</span>
-                    <strong style="color: var(--color-text-main); font-weight: 800;">${s.val}</strong>
-                </div>
-            `).join('');
         }
 
-        /* --- 2. PROCESS TABS LOGIC & DYNAMIC HEADER TITLE --- */
-        const processData = {
-            phase1: {
-                status: "STATUS OK",
-                headerTitle: 'Phase 1: <span class="text-accent">Lorem</span>',
-                title: "Phase 1: Lorem Ipsum Title",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                bullets: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Sed do eiusmod tempor incididunt ut labore"],
-                img: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop"
-            },
-            phase2: {
-                status: "IN PROGRESS",
-                headerTitle: 'Phase 2: <span class="text-accent">Ipsum</span>',
-                title: "Phase 2: Lorem Ipsum Title",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.",
-                bullets: ["Sed cursus ante dapibus diam", "Nulla quis sem at nibh elementum imperdiet"],
-                img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=800&auto=format&fit=crop"
-            },
-            phase3: {
-                status: "TESTING",
-                headerTitle: 'Phase 3: <span class="text-accent">Dolor</span>',
-                title: "Phase 3: Lorem Ipsum Title",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sodales ligula in libero.",
-                bullets: ["Sed dignissim lacinia nunc", "Curabitur tortor. Pellentesque nibh"],
-                img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop"
-            },
-            phase4: {
-                status: "COMPLETED",
-                headerTitle: 'Phase 4: <span class="text-accent">Sit</span>',
-                title: "Phase 4: Lorem Ipsum Title",
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum semper nisi.",
-                bullets: ["Aenean vulputate eleifend tellus", "Aenean leo ligula, porttitor eu"],
-                img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=800&auto=format&fit=crop"
+        /* --- 2. ACCURATE STICKY TIMELINE & SMOOTH PARALLAX LOGIC --- */
+        let currentX = 0;
+        let targetX = 0;
+        let isAnimationActive = false;
+
+        function calculateTimelineTarget() {
+            const timelineSection = document.getElementById('process');
+            const stickyWrapper = timelineSection ? timelineSection.querySelector('.timeline-sticky-wrapper') : null;
+            const timelineTrack = document.getElementById('timelineTrack');
+            const progressBar = document.getElementById('timelineProgressBar');
+            const cards = document.querySelectorAll('.timeline-card-wrapper');
+
+            if (!timelineSection || !stickyWrapper || !timelineTrack || cards.length === 0) return;
+
+            // Mobile fallback
+            if (window.innerWidth <= 768) return;
+
+            const rect = timelineSection.getBoundingClientRect();
+            const stickyHeight = stickyWrapper.offsetHeight;
+            const scrollDistance = timelineSection.offsetHeight - stickyHeight;
+
+            // Calculate percentage inside sticky section
+            let scrolled = 80 - rect.top;
+            let progress = scrolled / scrollDistance;
+            progress = Math.max(0, Math.min(1, progress));
+
+            // Shift calculation
+            const firstCard = cards[0];
+            const lastCard = cards[cards.length - 1];
+            const maxTranslate = lastCard.offsetLeft - firstCard.offsetLeft;
+
+            targetX = progress * maxTranslate;
+
+            // Fill line progress bar
+            if (progressBar) {
+                progressBar.style.width = `${progress * 100}%`;
             }
-        };
 
-        const phaseKeys = ['phase1', 'phase2', 'phase3', 'phase4'];
-        let currentPhaseIdx = 0;
-
-        function switchTab(key) {
-            currentPhaseIdx = phaseKeys.indexOf(key);
-            const data = processData[key];
-            
-            // Updates main section header title dynamically
-            document.getElementById('process-section-title').innerHTML = data.headerTitle;
-            
-            document.getElementById('tab-status').innerText = data.status;
-            document.getElementById('tab-title').innerText = data.title;
-            document.getElementById('tab-desc').innerText = data.desc;
-            document.getElementById('tab-image').src = data.img;
-            document.getElementById('tab-bullets').innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
-
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`tab-btn-${key}`).classList.add('active');
-        }
-
-        function cyclePhase(direction) {
-            currentPhaseIdx = (currentPhaseIdx + direction + phaseKeys.length) % phaseKeys.length;
-            switchTab(phaseKeys[currentPhaseIdx]);
-        }
-
-        /* --- 3. SPECS FILTER LOGIC & HEADER CONTROLS --- */
-        const filterCategories = ['all', 'cat1', 'cat2', 'cat3'];
-        let currentFilterIdx = 0;
-
-        function filterSpecs(category, btn) {
-            currentFilterIdx = filterCategories.indexOf(category);
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-
-            document.querySelectorAll('.spec-card').forEach(card => {
-                if (category === 'all' || card.classList.contains(`spec-${category}`)) {
-                    card.style.display = 'block';
+            // Node active state sync
+            const nodes = document.querySelectorAll('.timeline-node');
+            const activeIdx = Math.min(cards.length - 1, Math.round(progress * (cards.length - 1)));
+            nodes.forEach((node, idx) => {
+                if (idx === activeIdx) {
+                    node.classList.add('active');
                 } else {
-                    card.style.display = 'none';
+                    node.classList.remove('active');
                 }
             });
+
+            if (!isAnimationActive) {
+                isAnimationActive = true;
+                requestAnimationFrame(renderTimelineAnimation);
+            }
         }
 
-        function cycleSpecFilter(direction) {
-            currentFilterIdx = (currentFilterIdx + direction + filterCategories.length) % filterCategories.length;
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            filterSpecs(filterCategories[currentFilterIdx], filterBtns[currentFilterIdx]);
+        function renderTimelineAnimation() {
+            const timelineTrack = document.getElementById('timelineTrack');
+            const cards = document.querySelectorAll('.timeline-card-wrapper');
+            if (!timelineTrack) return;
+
+            // Smooth LERP factor
+            const ease = 0.08;
+            currentX += (targetX - currentX) * ease;
+
+            timelineTrack.style.transform = `translate3d(-${currentX}px, 0, 0)`;
+
+            // Card Image Parallax (maintains aspect ratio while panning)
+            const containerPaddingLeft = parseFloat(getComputedStyle(timelineTrack).paddingLeft) || 24;
+            cards.forEach((card) => {
+                const img = card.querySelector('.timeline-card-image');
+                if (img) {
+                    const cardCurrentLeft = card.offsetLeft - currentX;
+                    const relativeOffset = cardCurrentLeft - containerPaddingLeft;
+                    img.style.transform = `translate3d(${ -relativeOffset * 0.1 }px, 0, 0) scale(1.15)`;
+                }
+            });
+
+            if (Math.abs(targetX - currentX) > 0.05) {
+                requestAnimationFrame(renderTimelineAnimation);
+            } else {
+                isAnimationActive = false;
+            }
         }
 
-        /* --- 4. FAQ ACCORDION LOGIC --- */
+        function scrollToPhase(index) {
+            const timelineSection = document.getElementById('process');
+            const stickyWrapper = timelineSection ? timelineSection.querySelector('.timeline-sticky-wrapper') : null;
+            if (!timelineSection || !stickyWrapper) return;
+
+            if (window.innerWidth <= 768) {
+                const cards = document.querySelectorAll('.timeline-card-wrapper');
+                if (cards[index]) {
+                    cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            } else {
+                const cards = document.querySelectorAll('.timeline-card-wrapper');
+                const totalCards = cards.length;
+                const scrollDistance = timelineSection.offsetHeight - stickyWrapper.offsetHeight;
+                const targetProgress = index / (totalCards - 1);
+                
+                const sectionTop = timelineSection.getBoundingClientRect().top + window.scrollY;
+                const targetScrollY = (sectionTop - 80) + (targetProgress * scrollDistance);
+
+                window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+            }
+        }
+
+        /* --- 3. FAQ ACCORDION LOGIC --- */
         function toggleFaq(btn) {
             const body = btn.nextElementSibling;
-            body.classList.toggle('hidden');
+            if (body) body.classList.toggle('hidden');
         }
 
-        function toggleAllFaqs(expand) {
-            document.querySelectorAll('.faq-body').forEach(body => {
-                if (expand) {
-                    body.classList.remove('hidden');
-                } else {
-                    body.classList.add('hidden');
-                }
-            });
-        }
-
-        /* --- 5. MODAL & NAV LOGIC --- */
+        /* --- 4. MODAL & NAV LOGIC --- */
         function toggleMobileNav() {
             document.getElementById('mobile-nav').classList.toggle('active');
         }
@@ -1686,9 +1872,16 @@
             closeModal();
         }
 
+        // Global Event Listeners
+        window.addEventListener('scroll', calculateTimelineTarget, { passive: true });
+        window.addEventListener('resize', calculateTimelineTarget);
+
         window.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                try { lucide.createIcons(); } catch (err) { console.warn(err); }
+            }
             renderHotspot();
-            switchTab('phase1');
+            calculateTimelineTarget();
         });
     </script>
 </body>
