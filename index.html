@@ -5,1145 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PROJECT MJOLNIR // Prototype Mockup</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        /* ==========================================================================
-           1. DESIGN TOKENS & CSS VARIABLES
-           ========================================================================== */
-        :root {
-            --color-bg-page: #f1f5f9;
-            --color-bg-card: #ffffff;
-            --color-bg-card-hover: #f8fafc;
-            --color-accent: #ea580c;
-            --color-accent-hover: #c2410c;
-            --color-accent-translucent: rgba(234, 88, 12, 0.12);
-            --color-accent-border: rgba(234, 88, 12, 0.35);
-            --color-accent-glow: rgba(234, 88, 12, 0.25);
-            --color-border: rgba(15, 23, 42, 0.12);
-            --color-text-main: #0f172a;
-            --color-text-muted: #334155;
-            --color-glass-dark: rgba(10, 13, 10, 0.85);
-
-            --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-
-            --transition: all 0.3s ease;
-            --box-shadow: 0 14px 30px -6px rgba(15, 23, 42, 0.10), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
-            --box-shadow-hover: 0 20px 35px -8px rgba(15, 23, 42, 0.16), 0 6px 14px -3px rgba(15, 23, 42, 0.08);
-        }
-
-        /* ==========================================================================
-           2. GLOBAL RESETS & BASE STYLES
-           ========================================================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--color-bg-page);
-            color: var(--color-text-main);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        a { color: inherit; text-decoration: none; }
-        button, input, select { font-family: inherit; }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-            width: 100%;
-        }
-
-        .hidden { display: none !important; }
-        
-        .text-accent {
-            background: linear-gradient(135deg, #f97316 0%, #ff7828 50%, #ea580c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            padding-bottom: 0.12em;
-            margin-bottom: -0.12em;
-            line-height: 1.15;
-        }
-
-        .text-muted { color: var(--color-text-muted); }
-        .font-mono { font-family: var(--font-mono); }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--color-bg-page); }
-        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.25); border-radius: var(--radius-full); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
-
-        /* ==========================================================================
-           3. BUTTONS & BADGES
-           ========================================================================== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-            white-space: nowrap;
-        }
-
-        .btn-primary { background-color: var(--color-accent); color: #ffffff; }
-        .btn-primary:hover {
-            background-color: var(--color-accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3);
-        }
-
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-        }
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .btn-light-secondary {
-            background-color: #ffffff;
-            color: var(--color-text-main);
-            border: 1px solid var(--color-border);
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
-        }
-        .btn-light-secondary:hover {
-            background-color: #e2e8f0;
-            border-color: rgba(15, 23, 42, 0.25);
-        }
-
-        .btn-black { background-color: #0f172a; color: #ffffff; }
-        .btn-black:hover { background-color: #1e293b; transform: translateY(-2px); }
-
-        .btn-accent { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; }
-        .btn-accent:hover {
-            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-            box-shadow: 0 10px 20px rgba(234, 88, 12, 0.25);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: var(--radius-full);
-            background: rgba(234, 88, 12, 0.12);
-            border: 1px solid rgba(234, 88, 12, 0.35);
-            color: #c2410c;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
-        }
-
-        /* ==========================================================================
-           4. NAVBAR
-           ========================================================================== */
-        .header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(10, 13, 10, 0.85);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-            gap: clamp(16px, 3vw, 40px);
-        }
-
-        .navbar-logo {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0; margin: 0;
-        }
-
-        .navbar-logo-img {
-            height: 36px;
-            width: auto;
-            display: block;
-            object-fit: contain;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .navbar-logo:hover .navbar-logo-img {
-            opacity: 0.88;
-            transform: scale(1.02);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: clamp(12px, 2.2vw, 36px);
-            list-style: none;
-            margin: 0 auto;
-        }
-
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.85);
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-        .nav-links a:hover { color: #f97316; }
-
-        .nav-cta { flex-shrink: 0; }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .mobile-nav {
-            display: none;
-            background: #0a0d0a;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 24px;
-        }
-
-        .mobile-nav.active { display: flex; flex-direction: column; gap: 16px; }
-        .mobile-nav a {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        @media (max-width: 960px) {
-            .nav-links, .nav-cta { display: none; }
-            .menu-toggle { display: block; }
-        }
-
-        /* ==========================================================================
-           5. UNIFIED SECTION HEADERS (STANDARD GRID ALIGNMENT)
-           ========================================================================== */
-        .section {
-            padding: 96px 0;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .section-header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-            max-width: 680px;
-        }
-
-        .section-title {
-            font-size: clamp(1.85rem, 3.5vw, 2.75rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-top: 4px;
-            color: var(--color-text-main);
-            line-height: 1.15;
-        }
-
-        .section-subtitle {
-            color: var(--color-text-muted);
-            margin-top: 8px;
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .scroll-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 1px solid var(--color-border);
-            color: var(--color-text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-            user-select: none;
-        }
-
-        .scroll-btn * { pointer-events: none; }
-
-        .scroll-btn:hover {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
-            background: #e2e8f0;
-        }
-
-        @media (max-width: 640px) {
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .header-controls { align-self: flex-start; }
-        }
-
-        /* ==========================================================================
-           6. HERO SECTION
-           ========================================================================== */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 120px 0 60px;
-            background-image: linear-gradient(
-                to right, 
-                rgba(10, 13, 10, 0.92) 0%, 
-                rgba(10, 13, 10, 0.68) 50%, 
-                rgba(10, 13, 10, 0.88) 100%
-            ), 
-            url(./heroPic.JPG);
-            background-size: cover;
-            background-position: center 30%;
-            color: #ffffff;
-        }
-
-        .hero-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: calc(100vh - 180px);
-            width: 100%;
-        }
-
-        .hero-content { max-width: 680px; text-align: left; }
-
-        .hero-accent-line {
-            width: 50px;
-            height: 4px;
-            background: linear-gradient(90deg, #f97316, #ffaa40);
-            border-radius: var(--radius-full);
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -0.02em;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-
-        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-
-        .hero-attributes {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            margin-top: 48px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            max-width: 700px;
-        }
-
-        .attribute-item { flex: 1; text-align: left; }
-        .attribute-title { font-size: 14px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
-        .attribute-desc { font-size: 12px; color: rgba(255, 255, 255, 0.7); line-height: 1.4; }
-        .attribute-divider { width: 1px; height: 40px; background-color: rgba(255, 255, 255, 0.15); align-self: center; }
-
-        /* ==========================================================================
-           7. SPONSORS / PARTNERS SECTION
-           ========================================================================== */
-        .sponsors-section {
-            background: #ffffff;
-            border-bottom: 1px solid var(--color-border);
-            padding: 40px 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-        }
-
-        .sponsors-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .sponsors-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #475569;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .sponsors-logos {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 48px;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-
-        .sponsor-logo {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-            color: #334155;
-            transition: var(--transition);
-        }
-        .sponsor-logo:hover { color: var(--color-accent); }
-
-        /* ==========================================================================
-           8. INTERACTIVE HOTSPOTS SECTION
-           ========================================================================== */
-        .hotspot-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 32px;
-        }
-
-        @media (min-width: 1024px) {
-            .hotspot-layout { grid-template-columns: 7fr 5fr; }
-        }
-
-        .hotspot-canvas {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: 18px;
-            position: relative;
-            box-shadow: var(--box-shadow);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .hotspot-image-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 380px;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            background-color: #0f172a;
-        }
-
-        .hotspot-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-        }
-
-        .hotspot-pin {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .hotspot-pulse {
-            position: absolute;
-            width: 36px; height: 36px;
-            border-radius: var(--radius-full);
-            background: var(--color-accent-glow);
-            animation: pulse-ring 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.9; }
-            50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.2; }
-            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.9; }
-        }
-
-        .hotspot-number {
-            position: relative;
-            width: 28px; height: 28px;
-            border-radius: var(--radius-full);
-            background: var(--color-accent);
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
-            transition: var(--transition);
-        }
-
-        .hotspot-pin.active .hotspot-number {
-            transform: scale(1.25);
-            background: #ffffff;
-            color: var(--color-accent);
-            border-color: var(--color-accent);
-        }
-
-        .card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            box-shadow: var(--box-shadow);
-            text-align: left;
-        }
-
-        .hotspot-feature-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: var(--radius-md);
-            margin-bottom: 20px;
-            border: 1px solid var(--color-border);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-        }
-
-        /* ==========================================================================
-           9. SCROLLABLE TIMELINE SECTION (PERFECTLY LEFT-ALIGNED & FIXED ASPECT RATIO)
-           ========================================================================== */
-        .timeline-section {
-            position: relative;
-            height: 350vh;
-            border-bottom: 1px solid var(--color-border);
-            background: #f8fafc;
-        }
-
-        .timeline-sticky-wrapper {
-            position: sticky;
-            top: 80px;
-            height: calc(100vh - 80px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            overflow: hidden;
-            padding: 32px 0;
-        }
-
-        .timeline-nav-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 640px;
-            padding: 10px 0;
-            margin-top: 16px;
-            margin-bottom: 20px;
-        }
-
-        .timeline-line-bg {
-            position: absolute;
-            top: 22px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: rgba(15, 23, 42, 0.1);
-            z-index: 1;
-            border-radius: var(--radius-full);
-        }
-
-        .timeline-line-progress {
-            position: absolute;
-            top: 22px;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #f97316, #ea580c);
-            z-index: 2;
-            border-radius: var(--radius-full);
-            transition: width 0.15s ease-out;
-        }
-
-        .timeline-nodes {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        .timeline-node {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: left;
-        }
-
-        .timeline-node-circle {
-            width: 28px;
-            height: 28px;
-            border-radius: var(--radius-full);
-            background: #ffffff;
-            border: 2px solid var(--color-border);
-            color: var(--color-text-muted);
-            font-family: var(--font-mono);
-            font-weight: 800;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
-            transition: var(--transition);
-        }
-
-        .timeline-node.active .timeline-node-circle {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            color: #ffffff;
-            transform: scale(1.2);
-            box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);
-        }
-
-        .timeline-track-container {
-            width: 100%;
-            overflow: hidden;
-            padding: 10px 0 20px;
-        }
-
-        .timeline-track {
-            display: flex;
-            gap: 32px;
-            padding-left: max(24px, calc((100vw - 1280px)/2 + 24px));
-            padding-right: 50vw;
-            will-change: transform;
-        }
-
-        .timeline-card-wrapper {
-            flex: 0 0 clamp(320px, 58vw, 680px);
-            max-width: 680px;
-        }
-
-        .timeline-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--box-shadow);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: var(--transition);
-            text-align: left;
-        }
-
-        .timeline-card:hover {
-            border-color: var(--color-accent-border);
-            box-shadow: var(--box-shadow-hover);
-        }
-
-        .timeline-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            align-items: center;
-        }
-
-        /* FIXED ASPECT RATIO IMAGE WRAPPER */
-        .timeline-card-image-wrap {
-            width: 100%;
-            height: 240px;
-            overflow: hidden;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--color-border);
-            position: relative;
-            background-color: var(--color-bg-page);
-        }
-
-        .timeline-card-image {
-            width: 125%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            will-change: transform;
-            transform: translate3d(0, 0, 0) scale(1.15);
-        }
-
-        /* Mobile Adjustments for Touch Swipe */
-        @media (max-width: 768px) {
-            .timeline-section {
-                height: auto;
-                padding: 64px 0;
-            }
-            .timeline-sticky-wrapper {
-                position: relative;
-                top: 0;
-                height: auto;
-                overflow: visible;
-                padding: 0;
-            }
-            .timeline-track-container {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 20px;
-            }
-            .timeline-track-container::-webkit-scrollbar { display: none; }
-            .timeline-track {
-                transform: none !important;
-                padding-left: 24px;
-                padding-right: 24px;
-                gap: 20px;
-            }
-            .timeline-card-wrapper {
-                scroll-snap-align: center;
-                flex: 0 0 85vw;
-            }
-            .timeline-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .timeline-card-image-wrap {
-                height: 200px;
-            }
-            .timeline-card-image {
-                width: 100%;
-                transform: none !important;
-            }
-        }
-
-        /* ==========================================================================
-           10. FEATURED STORIES SECTION
-           ========================================================================== */
-        .featured-stories {
-            padding: 96px 0;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .stories-track {
-            display: flex;
-            gap: 24px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            padding-bottom: 16px;
-        }
-
-        .stories-track::-webkit-scrollbar { display: none; }
-
-        .story-card {
-            flex: 0 0 420px;
-            scroll-snap-align: start;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: var(--transition);
-            cursor: pointer;
-            box-shadow: var(--box-shadow);
-            text-align: left;
-        }
-
-        .story-card:hover {
-            border-color: var(--color-accent);
-            transform: translateY(-4px);
-            box-shadow: var(--box-shadow-hover);
-        }
-
-        .story-card-image { width: 100%; height: 220px; object-fit: cover; }
-
-        .story-card-body {
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: space-between;
-        }
-
-        .story-card-title {
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 8px;
-            color: var(--color-text-main);
-        }
-
-        .story-card-desc {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            margin-bottom: 20px;
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        .story-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 16px;
-            border-top: 1px solid var(--color-border);
-            font-size: 12px;
-        }
-
-        .story-link { display: flex; align-items: center; gap: 6px; color: var(--color-accent); font-weight: 700; }
-        .story-partner { color: var(--color-text-muted); font-family: var(--font-mono); font-weight: 600; }
-
-        /* ==========================================================================
-           11. FAQ ACCORDION SECTION
-           ========================================================================== */
-        .faq-item {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            margin-bottom: 16px;
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-            text-align: left;
-        }
-
-        .faq-header {
-            width: 100%;
-            padding: 20px;
-            background: none;
-            border: none;
-            color: var(--color-text-main);
-            font-size: 16px;
-            font-weight: 700;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .faq-body {
-            padding: 0 20px 20px;
-            color: var(--color-text-muted);
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 1.6;
-        }
-
-        /* ==========================================================================
-           12. FLOATING PHOTO GALLERY SECTION
-           ========================================================================== */
-        .floating-gallery-section {
-            position: relative;
-            padding: 80px 24px;
-            background: #0d1117;
-            color: #ffffff;
-            border-bottom: 1px solid var(--color-border);
-            overflow: hidden;
-        }
-
-        .gallery-canvas {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            align-items: start;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .floating-card {
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-        }
-
-        .f-card-2 { transform: translateY(28px); }
-        .f-card-4 { transform: translateY(16px); }
-        .f-card-5 { transform: translateY(-18px); }
-        .f-card-7 { transform: translateY(22px); }
-        .f-card-9 { transform: translateY(-12px); }
-
-        .floating-card:hover {
-            transform: scale(1.03) translateY(-4px);
-            z-index: 10;
-        }
-
-        .floating-card-img {
-            width: 100%;
-            height: auto;
-            border-radius: 16px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            display: block;
-        }
-
-        .floating-card-caption {
-            margin-top: 10px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            line-height: 1.35;
-            background: rgba(10, 13, 10, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 8px 12px;
-            border-radius: 8px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            text-align: left;
-        }
-
-        .floating-card-title { color: #ffffff; font-weight: 600; }
-        .floating-card-sub { color: rgba(255, 255, 255, 0.65); font-size: 10px; }
-
-        .gallery-overlay-content {
-            grid-column: 1 / span 2;
-            align-self: end;
-            padding: 24px 0;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            z-index: 5;
-            margin-top: 16px;
-            text-align: left;
-        }
-
-        .gallery-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            background: var(--color-accent-translucent);
-            border: 1px solid var(--color-accent-border);
-            color: #ffaa40;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            margin-bottom: 16px;
-        }
-
-        .gallery-overlay-title {
-            font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .gallery-overlay-desc {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .gallery-overlay-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-
-        @media (max-width: 1200px) {
-            .gallery-canvas { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-            .gallery-overlay-content { grid-column: 1 / span 2; }
-            .f-card-2, .f-card-4, .f-card-5, .f-card-7, .f-card-9 { transform: none; }
-        }
-
-        @media (max-width: 768px) {
-            .gallery-canvas { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-            .gallery-overlay-content { grid-column: 1 / -1; padding: 16px 0; }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-canvas { grid-template-columns: 1fr; }
-        }
-
-        /* ==========================================================================
-           13. MODAL
-           ========================================================================== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            max-width: 480px;
-            width: 100%;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-            text-align: left;
-        }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            color: var(--color-text-muted);
-            margin-bottom: 6px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--color-bg-page);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-            color: var(--color-text-main);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--color-accent);
-        }
-
-        /* ==========================================================================
-           14. SITE FOOTER
-           ========================================================================== */
-        .site-footer {
-            background-color: #000000;
-            color: #ffffff;
-            padding: 72px 0 80px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            text-align: left;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 48px;
-            flex-wrap: wrap;
-        }
-
-        .footer-brand {
-            display: flex;
-            flex-direction: column;
-            max-width: 340px;
-        }
-
-        .footer-logo { display: inline-block; margin-bottom: 24px; }
-        .footer-logo-img { height: 24px; width: auto; display: block; object-fit: contain; }
-
-        .footer-tagline {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            font-weight: 400;
-            margin-bottom: 24px;
-            letter-spacing: 0.01em;
-        }
-
-        .footer-credit { color: rgba(255, 255, 255, 0.5); font-size: 13px; font-weight: 400; }
-        .footer-credit-bold { color: rgba(255, 255, 255, 0.9); font-weight: 500; }
-
-        .footer-nav-group { display: flex; gap: 80px; }
-        .footer-column { display: flex; flex-direction: column; }
-
-        .footer-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 20px;
-            letter-spacing: 0.01em;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0; margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            font-weight: 400;
-            transition: color 0.2s ease;
-        }
-        .footer-links a:hover { color: #ffffff; }
-
-        @media (max-width: 768px) {
-            .footer-container { flex-direction: column; gap: 48px; }
-            .footer-nav-group { gap: 60px; width: 100%; }
-            .story-card { flex: 0 0 320px; }
-            .hero-attributes { flex-direction: column; gap: 16px; }
-            .attribute-divider { width: 100%; height: 1px; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <!-- NAVBAR -->
     <header class="header">
         <div class="container nav-container">
-            <a href="#" class="navbar-logo">
+            <a href="index.html" class="navbar-logo">
                 <img src="featuresphotos/mjolnirLogotext.png" alt="Project Mjolnir" class="navbar-logo-img">
             </a>
 
@@ -1151,11 +24,12 @@
                 <a href="#features">Features</a>
                 <a href="#process">Timeline</a>
                 <a href="#stories">Stories</a>
+                <a href="team.html">Team</a>
                 <a href="#faq">FAQ</a>
             </nav>
 
             <div class="nav-cta">
-                <button onclick="openModal()" class="btn btn-secondary">
+                <button onclick="openBuildModal()" class="btn btn-secondary">
                     <span>Build Your Bike</span>
                     <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
                 </button>
@@ -1171,8 +45,9 @@
             <a href="#features" onclick="toggleMobileNav()">Features</a>
             <a href="#process" onclick="toggleMobileNav()">Timeline</a>
             <a href="#stories" onclick="toggleMobileNav()">Stories</a>
+            <a href="team.html">Team</a>
             <a href="#faq" onclick="toggleMobileNav()">FAQ</a>
-            <button onclick="openModal(); toggleMobileNav();" class="btn btn-accent" style="width: 100%; margin-top: 12px;">Action Button</button>
+            <button onclick="openBuildModal(); toggleMobileNav();" class="btn btn-accent" style="width: 100%; margin-top: 12px;">Build Your Bike</button>
         </div>
     </header>
 
@@ -1188,7 +63,7 @@
                         <span>Learn More</span>
                         <i data-lucide="arrow-down" style="width: 16px; height: 16px;"></i>
                     </a>
-                    <button onclick="openModal()" class="btn btn-secondary">
+                    <button onclick="openContactModal()" class="btn btn-secondary">
                         <i data-lucide="play-circle" style="width: 16px; height: 16px; color: #ffaa40;"></i>
                         <span>Contact Us</span>
                     </button>
@@ -1214,7 +89,7 @@
         </div>
     </section>
 
-    <!-- SPONSORS / PARTNERS SECTION -->
+    <!-- SPONSORS SECTION -->
     <section class="sponsors-section">
         <div class="container sponsors-container">
             <span class="sponsors-label">powered by</span>
@@ -1286,15 +161,13 @@
     <section id="process" class="timeline-section">
         <div class="timeline-sticky-wrapper">
             <div class="container">
-                <!-- Standard Left-Aligned Section Header -->
                 <div class="section-header" style="margin-bottom: 0;">
                     <div class="section-header-content">
-                        <span class="badge">Active Development</span>
+                        <span class="badge">Milestones</span>
                         <h2 class="section-title">Development <span class="text-accent">Timeline</span></h2>
                     </div>
                 </div>
 
-                <!-- Left-Aligned Timeline Nodes & Progress Bar -->
                 <div class="timeline-nav-wrapper">
                     <div class="timeline-line-bg"></div>
                     <div class="timeline-line-progress" id="timelineProgressBar"></div>
@@ -1317,14 +190,13 @@
 
             <div class="timeline-track-container" id="timelineTrackContainer">
                 <div class="timeline-track" id="timelineTrack">
-                    <!-- Phase 1 Card -->
                     <div class="timeline-card-wrapper">
                         <div class="timeline-card">
                             <div class="timeline-grid">
                                 <div>
-                                    <span class="badge">Jan 2023</span>
+                                    <span class="badge">2023</span>
                                     <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Approval of Project Mjolnir</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">In January 2023, Project Mjolnir received official approval and a funding allocation of $15,000 from NYU. This milestone marked the commencement of the design phase for the first adaptive mountain bike.</p>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Our bikes built at NYU in NYC, Abu Dhabi and in Shanghai were the first adaptive mountain bikes not only to exist at those locations but also to be ridden there.</p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/IMG_7122.JPG" class="timeline-card-image" alt="Phase 1">
@@ -1333,14 +205,13 @@
                         </div>
                     </div>
 
-                    <!-- Phase 2 Card -->
                     <div class="timeline-card-wrapper">
                         <div class="timeline-card">
                             <div class="timeline-grid">
                                 <div>
-                                    <span class="badge">Feb 2023</span>
+                                    <span class="badge">2024</span>
                                     <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Industry Support Secured</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Significant support was secured for the project in February 2023. SRAM bicycle components, Specialized Bicycles, and Fictiv contributed to Project Mjolnir, providing assistance with a combined value of approximately $17,000.</p>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Working with several adaptive sports organisations in the US, Project Mjolnir was named by Singletrack Magazines most innovative product of the year award. </p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/IMG_4034.JPG" class="timeline-card-image" alt="Phase 2">
@@ -1349,14 +220,14 @@
                         </div>
                     </div>
 
-                    <!-- Phase 3 Card -->
                     <div class="timeline-card-wrapper">
                         <div class="timeline-card">
                             <div class="timeline-grid">
                                 <div>
-                                    <span class="badge">Mar 2023</span>
-                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Design Freeze and Manufacturing Preparations</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">By March 2023, the project reached a design freeze on the concept, and the first part files were sent out for manufacture. This step ensured the team was ready to move from design to fabrication.</p>
+                                    <span class="badge">2025</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Design Freeze & Manufacturing</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Project Mjolnir bikes were raced at the Slieve Bloom MTB festival in Ireland. The barrier to entry into the sport is the technology and making this affordable allowed people with disabilities from Ireland to be able to compete in the first ever adaptive mountain bike race to be held there, essentially establishing the sport in the country. The team also won the NYU Tandon Research excellence exhibit award.
+</p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/Copy of IMG_7361.JPG" class="timeline-card-image" alt="Phase 3">
@@ -1365,14 +236,14 @@
                         </div>
                     </div>
 
-                    <!-- Phase 4 Card -->
                     <div class="timeline-card-wrapper">
                         <div class="timeline-card">
                             <div class="timeline-grid">
                                 <div>
-                                    <span class="badge">Apr 2023</span>
-                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">First Assembly in New York</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">The first set of manufactured parts arrived at NYU's ITP in Brooklyn in April 2023. Over the previous three months, the team had collaborated remotely to finalise the design. Once the parts arrived, the entire bike was assembled in only three days, requiring only minor alterations.<br><br>This achievement resulted in the creation of the first adaptive mountain bike in New York City, which also became the first adaptive mountain bike to be ridden across the Brooklyn Bridge. The bike was subsequently deployed to Freshkills Park in July 2023, where wheelchair user Rachel Wallenbach became the first person to participate in adaptive mountain biking in NYC.</p>
+                                    <span class="badge">2026</span>
+                                    <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">First Assembly in NYC</h3>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">The project is on track to reach 40 bikes built. The effort and work of the staff and students at NYU over the project's history has enabled this incredible goal to be achieved. The team also began design, development and deployment of the smaller version of the bike as well as several smaller projects established to address the diverse needs of those with different types of disability.
+</p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/IMG_8294.jpeg" class="timeline-card-image" alt="Phase 4">
@@ -1404,47 +275,47 @@
             </div>
 
             <div class="stories-track" id="storiesTrack">
-                <div class="story-card">
+                <a href="story1.html" class="story-card">
                     <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop" class="story-card-image" alt="Story 1">
                     <div class="story-card-body">
                         <div>
-                            <h3 class="story-card-title">Story 1</h3>
-                            <p class="story-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <h3 class="story-card-title">Conquering New Trails in NYC</h3>
+                            <p class="story-card-desc">How Project Mjolnir is unlocking off-road trails for adaptive athletes across New York parks.</p>
                         </div>
                         <div class="story-card-footer">
                             <span class="story-link">Read story <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></span>
-                            <span class="story-partner">LOREM 1</span>
+                            <span class="story-partner">PARKS NYC</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="story-card">
+                <a href="story2.html" class="story-card">
                     <img src="https://images.unsplash.com/photo-1517649763962-0c623266010b?q=80&w=800&auto=format&fit=crop" class="story-card-image" alt="Story 2">
                     <div class="story-card-body">
                         <div>
-                            <h3 class="story-card-title">Story 2</h3>
-                            <p class="story-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+                            <h3 class="story-card-title">The Open-Source Revolution</h3>
+                            <p class="story-card-desc">Why open-sourcing CAD blueprints empowers global makers to build custom adaptive equipment locally.</p>
                         </div>
                         <div class="story-card-footer">
                             <span class="story-link">Read story <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></span>
-                            <span class="story-partner">LOREM 2</span>
+                            <span class="story-partner">TECH OPEN</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="story-card">
+                <a href="story3.html" class="story-card">
                     <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=800&auto=format&fit=crop" class="story-card-image" alt="Story 3">
                     <div class="story-card-body">
                         <div>
-                            <h3 class="story-card-title">Story 3</h3>
-                            <p class="story-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.</p>
+                            <h3 class="story-card-title">Engineering for Inclusivity</h3>
+                            <p class="story-card-desc">A deep dive into the jackshaft pivot system and custom suspension geometry designed for zero chain growth.</p>
                         </div>
                         <div class="story-card-footer">
                             <span class="story-link">Read story <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></span>
-                            <span class="story-partner">LOREM 3</span>
+                            <span class="story-partner">NYU TANDON</span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -1508,90 +379,85 @@
                 <div class="floating-card f-card-1">
                     <img src="galleryphotos/IMG_7122.JPG" class="floating-card-img" alt="Gallery Photo 1">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Assembly</div>
+                        <div class="floating-card-sub">NYU Tandon</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-2">
                     <img src="galleryphotos/20240424_151822.JPEG" class="floating-card-img" alt="Gallery Photo 2">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Bike Assembly</div>
+                        <div class="floating-card-sub">Brooklyn, NY</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-3">
                     <img src="galleryphotos/NYU00184.JPEG" class="floating-card-img" alt="Gallery Photo 3">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Test Run</div>
+                        <div class="floating-card-sub">NYU Shanghai</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-4">
                     <img src="galleryphotos/daptive mountain biking at Fresh Kills (40 of 93).JPEG" class="floating-card-img" alt="Gallery Photo 4">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">First Trail Run</div>
+                        <div class="floating-card-sub">Freshkills Park, NY</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-5">
                     <img src="galleryphotos/IMG_4034.JPG" class="floating-card-img" alt="Gallery Photo 5">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Bike Building</div>
+                        <div class="floating-card-sub">NYU Shanghai</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-6">
                     <img src="galleryphotos/IMG_8294.jpeg" class="floating-card-img" alt="Gallery Photo 6">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">NYU Tandon Engineering Exhibition</div>
+                        <div class="floating-card-sub">Brooklyn, NY</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-7">
                     <img src="galleryphotos/IMG_6655.JPG" class="floating-card-img" alt="Gallery Photo 7">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Race Preparations</div>
+                        <div class="floating-card-sub">Ireland</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-8">
                     <img src="galleryphotos/Copy of IMG_7361.JPG" class="floating-card-img" alt="Gallery Photo 8">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Mjolnir Parts</div>
+                        <div class="floating-card-sub">NYU Shanghai</div>
                     </div>
                 </div>
 
                 <div class="floating-card f-card-9">
                     <img src="galleryphotos/20231105_112646.JPEG" class="floating-card-img" alt="Gallery Photo 9">
                     <div class="floating-card-caption">
-                        <div class="floating-card-title">image</div>
-                        <div class="floating-card-sub">location</div>
+                        <div class="floating-card-title">Bike Riding!</div>
+                        <div class="floating-card-sub">Shanghai, China</div>
                     </div>
                 </div>
 
-                <!-- Invisible Wall Barrier for Bottom-Left Text Area -->
                 <div class="gallery-overlay-content">
-                    <div class="gallery-pill">
-                        <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #ffaa40;"></i>
-                        <span>Project Mjolnir</span>
-                    </div>
                     <h2 class="gallery-overlay-title">Interested in <br> <span class="text-accent">being worthy?</span></h2>
                     <p class="gallery-overlay-desc">join our community of inclusive cycling enthusiasts or reach out to say hi!</p>
                     <div class="gallery-overlay-buttons">
-                        <a href="#" class="btn btn-primary">
+                        <a href="team.html" class="btn btn-primary">
                             <span>About the Team</span>
                         </a>
-                        <a href="#" class="btn btn-black">
+                        <button onclick="openContactModal()" class="btn btn-black">
                             <span>Contact Us</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -1599,31 +465,37 @@
         </div>
     </section>
 
-    <!-- SUPPORT MODAL -->
-    <div id="modal" class="modal-overlay hidden">
-        <div class="modal-card">
-            <h3 style="font-size: 20px; margin-bottom: 8px; color: var(--color-text-main);">Lorem Ipsum Title</h3>
-            <p class="text-muted" style="font-size: 14px; margin-bottom: 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <!-- BUILD YOUR BIKE MODAL -->
+    <div id="buildModal" class="modal-overlay hidden">
+        <div class="modal-card" style="text-align: center;">
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: var(--color-text-main);">Build Your Bike</h3>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 24px;">Access our open-source 3D models and manufacturing files below:</p>
             
-            <form onsubmit="handleForm(event)">
-                <div class="form-group">
-                    <label>INPUT LABEL 1</label>
-                    <input type="text" required placeholder="Lorem ipsum">
-                </div>
-                <div class="form-group">
-                    <label>INPUT LABEL 2</label>
-                    <input type="email" required placeholder="lorem@example.com">
-                </div>
-                <div class="form-group">
-                    <label>SELECT OPTION</label>
-                    <select>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-accent" style="width: 100%; margin-top: 12px;">Submit Action</button>
-                <button type="button" onclick="closeModal()" class="btn btn-light-secondary" style="width: 100%; margin-top: 8px;">Cancel</button>
-            </form>
+            <div style="margin-bottom: 24px; padding: 16px; background: var(--color-bg-page); border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <a href="https://grabcad.com/library/mjolnir-full-suspension-frame-assembly-1" target="_blank" style="color: var(--color-accent); font-weight: 700; font-size: 15px; text-decoration: underline; display: block; margin-bottom: 12px;">
+                    Mjolnir Full Suspension Frame Assembly
+                </a>
+                <a href="https://grabcad.com/library/mjolnir-rigid-frame-assembly-1" target="_blank" style="color: var(--color-accent); font-weight: 700; font-size: 15px; text-decoration: underline; display: block; margin-bottom: 12px;">
+                    Mjolnir Rigid Frame Assembly
+                </a>
+                <span class="text-muted" style="font-size: 14px; font-weight: 600;">mjolniramtb@gmail.com</span>
+            </div>
+
+            <button type="button" onclick="closeBuildModal()" class="btn btn-light-secondary" style="width: 100%;">Close</button>
+        </div>
+    </div>
+
+    <!-- CONTACT US MODAL -->
+    <div id="contactModal" class="modal-overlay hidden">
+        <div class="modal-card" style="text-align: center;">
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: var(--color-text-main);">Contact Us</h3>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 24px;">Reach out directly to our team via email:</p>
+            
+            <div style="margin-bottom: 24px; padding: 16px; background: var(--color-bg-page); border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <span class="text-main" style="font-size: 16px; font-weight: 700; color: var(--color-accent); display: block;">mjolniramtb@gmail.com</span>
+            </div>
+
+            <button type="button" onclick="closeContactModal()" class="btn btn-light-secondary" style="width: 100%;">Close</button>
         </div>
     </div>
 
@@ -1631,7 +503,7 @@
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <a href="#" class="footer-logo">
+                <a href="index.html" class="footer-logo">
                     <img src="featuresphotos/mjolnirLogotext.png" alt="PROJECT MJOLNIR" class="footer-logo-img">
                 </a>
                 <p class="footer-tagline">An open source, adaptive bike</p>
@@ -1642,10 +514,10 @@
                 <div class="footer-column">
                     <h4 class="footer-title">Sections</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Bikes</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.html#features">Bikes</a></li>
+                        <li><a href="index.html#stories">News</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="#" onclick="openContactModal()">Contact</a></li>
                     </ul>
                 </div>
 
@@ -1660,229 +532,6 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        /* --- STORIES SCROLL CONTROL --- */
-        function scrollStories(direction) {
-            const track = document.getElementById('storiesTrack');
-            if (track) {
-                track.scrollBy({ left: direction * 440, behavior: 'smooth' });
-            }
-        }
-
-        /* --- 1. HOTSPOT DATA & LOGIC --- */
-        const hotspots = [
-            {
-                id: 1,
-                title: "All Terrains Ready",
-                desc: "Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain",
-                img: "./featuresphotos/mjolnirBackwheel.JPEG"
-            },
-            {
-                id: 2,
-                title: "Performance Suspension",
-                desc: "Best in class suspension with up to 200mm of travel at the rear ensuring superior traction and impact isolation for the rider",
-                img: "./featuresphotos/MjolnirSuspension.JPG"
-            },
-            {
-                id: 3,
-                title: "Smooth Ride",
-                desc: "Jackshaft pivot for drive and suspension systems ensures 0 chain growth during movement keeping the suspension silky smooth over the rough stuff",
-                img: "./featuresphotos/chainTension.JPEG"
-            },
-            {
-                id: 4,
-                title: "Fully Customizable",
-                desc: "Interchangeable frame components lets you adjust the bike to your needs and component choices such as brakes, drivetrain, and wheel size",
-                img: "./featuresphotos/MjolnirCustomPart.JPG"
-            }
-        ];
-
-        let currentIdx = 0;
-
-        function selectHotspot(id) {
-            currentIdx = hotspots.findIndex(h => h.id === id);
-            renderHotspot();
-        }
-
-        function prevHotspot() {
-            currentIdx = (currentIdx - 1 + hotspots.length) % hotspots.length;
-            renderHotspot();
-        }
-
-        function nextHotspot() {
-            currentIdx = (currentIdx + 1) % hotspots.length;
-            renderHotspot();
-        }
-
-        function renderHotspot() {
-            const data = hotspots[currentIdx];
-            if (!data) return;
-
-            document.getElementById('hotspot-num').innerText = `FEATURE ${data.id}`;
-            document.getElementById('hotspot-title').innerText = data.title;
-            document.getElementById('hotspot-desc').innerText = data.desc;
-            
-            const imgElem = document.getElementById('hotspot-img');
-            if (imgElem && data.img) {
-                imgElem.src = data.img;
-            }
-
-            [1, 2, 3, 4].forEach(i => {
-                const pin = document.getElementById(`hotspot-pin-${i}`);
-                if (pin && pin.parentElement) {
-                    if (i === data.id) {
-                        pin.parentElement.classList.add('active');
-                    } else {
-                        pin.parentElement.classList.remove('active');
-                    }
-                }
-            });
-        }
-
-        /* --- 2. ACCURATE STICKY TIMELINE & SMOOTH PARALLAX LOGIC --- */
-        let currentX = 0;
-        let targetX = 0;
-        let isAnimationActive = false;
-
-        function calculateTimelineTarget() {
-            const timelineSection = document.getElementById('process');
-            const stickyWrapper = timelineSection ? timelineSection.querySelector('.timeline-sticky-wrapper') : null;
-            const timelineTrack = document.getElementById('timelineTrack');
-            const progressBar = document.getElementById('timelineProgressBar');
-            const cards = document.querySelectorAll('.timeline-card-wrapper');
-
-            if (!timelineSection || !stickyWrapper || !timelineTrack || cards.length === 0) return;
-
-            // Mobile fallback
-            if (window.innerWidth <= 768) return;
-
-            const rect = timelineSection.getBoundingClientRect();
-            const stickyHeight = stickyWrapper.offsetHeight;
-            const scrollDistance = timelineSection.offsetHeight - stickyHeight;
-
-            // Calculate percentage inside sticky section
-            let scrolled = 80 - rect.top;
-            let progress = scrolled / scrollDistance;
-            progress = Math.max(0, Math.min(1, progress));
-
-            // Shift calculation
-            const firstCard = cards[0];
-            const lastCard = cards[cards.length - 1];
-            const maxTranslate = lastCard.offsetLeft - firstCard.offsetLeft;
-
-            targetX = progress * maxTranslate;
-
-            // Fill line progress bar
-            if (progressBar) {
-                progressBar.style.width = `${progress * 100}%`;
-            }
-
-            // Node active state sync
-            const nodes = document.querySelectorAll('.timeline-node');
-            const activeIdx = Math.min(cards.length - 1, Math.round(progress * (cards.length - 1)));
-            nodes.forEach((node, idx) => {
-                if (idx === activeIdx) {
-                    node.classList.add('active');
-                } else {
-                    node.classList.remove('active');
-                }
-            });
-
-            if (!isAnimationActive) {
-                isAnimationActive = true;
-                requestAnimationFrame(renderTimelineAnimation);
-            }
-        }
-
-        function renderTimelineAnimation() {
-            const timelineTrack = document.getElementById('timelineTrack');
-            const cards = document.querySelectorAll('.timeline-card-wrapper');
-            if (!timelineTrack) return;
-
-            // Smooth LERP factor
-            const ease = 0.08;
-            currentX += (targetX - currentX) * ease;
-
-            timelineTrack.style.transform = `translate3d(-${currentX}px, 0, 0)`;
-
-            // Card Image Parallax (maintains aspect ratio while panning)
-            const containerPaddingLeft = parseFloat(getComputedStyle(timelineTrack).paddingLeft) || 24;
-            cards.forEach((card) => {
-                const img = card.querySelector('.timeline-card-image');
-                if (img) {
-                    const cardCurrentLeft = card.offsetLeft - currentX;
-                    const relativeOffset = cardCurrentLeft - containerPaddingLeft;
-                    img.style.transform = `translate3d(${ -relativeOffset * 0.1 }px, 0, 0) scale(1.15)`;
-                }
-            });
-
-            if (Math.abs(targetX - currentX) > 0.05) {
-                requestAnimationFrame(renderTimelineAnimation);
-            } else {
-                isAnimationActive = false;
-            }
-        }
-
-        function scrollToPhase(index) {
-            const timelineSection = document.getElementById('process');
-            const stickyWrapper = timelineSection ? timelineSection.querySelector('.timeline-sticky-wrapper') : null;
-            if (!timelineSection || !stickyWrapper) return;
-
-            if (window.innerWidth <= 768) {
-                const cards = document.querySelectorAll('.timeline-card-wrapper');
-                if (cards[index]) {
-                    cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                }
-            } else {
-                const cards = document.querySelectorAll('.timeline-card-wrapper');
-                const totalCards = cards.length;
-                const scrollDistance = timelineSection.offsetHeight - stickyWrapper.offsetHeight;
-                const targetProgress = index / (totalCards - 1);
-                
-                const sectionTop = timelineSection.getBoundingClientRect().top + window.scrollY;
-                const targetScrollY = (sectionTop - 80) + (targetProgress * scrollDistance);
-
-                window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-            }
-        }
-
-        /* --- 3. FAQ ACCORDION LOGIC --- */
-        function toggleFaq(btn) {
-            const body = btn.nextElementSibling;
-            if (body) body.classList.toggle('hidden');
-        }
-
-        /* --- 4. MODAL & NAV LOGIC --- */
-        function toggleMobileNav() {
-            document.getElementById('mobile-nav').classList.toggle('active');
-        }
-
-        function openModal() {
-            document.getElementById('modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
-        }
-
-        function handleForm(e) {
-            e.preventDefault();
-            alert('Form submitted!');
-            closeModal();
-        }
-
-        // Global Event Listeners
-        window.addEventListener('scroll', calculateTimelineTarget, { passive: true });
-        window.addEventListener('resize', calculateTimelineTarget);
-
-        window.addEventListener('DOMContentLoaded', () => {
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                try { lucide.createIcons(); } catch (err) { console.warn(err); }
-            }
-            renderHotspot();
-            calculateTimelineTarget();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
