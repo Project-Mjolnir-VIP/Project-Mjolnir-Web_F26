@@ -100,7 +100,7 @@
         </div>
     </section>
 
-    <!-- INTERACTIVE HOTSPOTS SECTION -->
+    <!-- INTERACTIVE HOTSPOTS & FEATURE BREAKDOWN SECTION -->
     <section id="features" class="section">
         <div class="container">
             <div class="section-header">
@@ -124,7 +124,7 @@
                     <div class="hotspot-image-container">
                         <img src="./featuresphotos/mjolnirsideshot.JPEG" alt="Blueprint Mockup">
 
-                        <div class="hotspot-pin" style="top: 28%; left: 22%;" onclick="selectHotspot(1)">
+                        <div class="hotspot-pin active" style="top: 28%; left: 22%;" onclick="selectHotspot(1)">
                             <div class="hotspot-pulse"></div>
                             <div class="hotspot-number" id="hotspot-pin-1">1</div>
                         </div>
@@ -143,15 +143,71 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-                            <span class="badge" id="hotspot-num">WHEELS</span>
+                <div class="features-track-wrapper">
+                    <div class="features-track" id="featuresTrack">
+                        <!-- Card 1 -->
+                        <div class="card feature-card active" id="feature-card-1">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                                    <span class="badge">FEATURE 1</span>
+                                </div>
+                                <img src="./featuresphotos/mjolnirBackwheel.JPEG" class="hotspot-feature-img" alt="All Terrains Ready">
+                                <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">All Terrains Ready</h3>
+                                <p class="text-muted" style="font-size: 15px; font-weight: 500;">Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain</p>
+                            </div>
                         </div>
-                        <img id="hotspot-img" src="./featuresphotos/mjolnirBackwheel.JPEG" class="hotspot-feature-img" alt="Feature Preview">
-                        <h3 id="hotspot-title" style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">All Terrains Ready</h3>
-                        <p id="hotspot-desc" class="text-muted" style="font-size: 15px; font-weight: 500;">Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain</p>
+
+                        <!-- Card 2 -->
+                        <div class="card feature-card" id="feature-card-2">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                                    <span class="badge">FEATURE 2</span>
+                                </div>
+                                <img src="./featuresphotos/MjolnirSuspension.JPG" class="hotspot-feature-img" alt="Performance Suspension">
+                                <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Performance Suspension</h3>
+                                <p class="text-muted" style="font-size: 15px; font-weight: 500;">Best in class suspension with up to 200mm of travel at the rear ensuring superior traction and impact isolation for the rider</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="card feature-card" id="feature-card-3">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                                    <span class="badge">FEATURE 3</span>
+                                </div>
+                                <img src="./featuresphotos/chainTension.JPEG" class="hotspot-feature-img" alt="Smooth Ride">
+                                <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Smooth Ride</h3>
+                                <p class="text-muted" style="font-size: 15px; font-weight: 500;">Jackshaft pivot for drive and suspension systems ensures 0 chain growth during movement keeping the suspension silky smooth over the rough stuff</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="card feature-card" id="feature-card-4">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                                    <span class="badge">FEATURE 4</span>
+                                </div>
+                                <img src="./featuresphotos/MjolnirCustomPart.JPG" class="hotspot-feature-img" alt="Fully Customizable">
+                                <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Fully Customizable</h3>
+                                <p class="text-muted" style="font-size: 15px; font-weight: 500;">Interchangeable frame components lets you adjust the bike to your needs and component choices such as brakes, drivetrain, and wheel size</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- MOBILE FEATURES FOOTER CONTROLS & PROGRESS BAR -->
+            <div class="features-footer-controls">
+                <div class="features-progress-container">
+                    <div class="features-progress-bar" id="featuresProgressBar"></div>
+                </div>
+                <div class="features-scroll-btns">
+                    <button class="scroll-btn" onclick="prevHotspot()" aria-label="Scroll left">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn" onclick="nextHotspot()" aria-label="Scroll right">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -226,8 +282,7 @@
                                 <div>
                                     <span class="badge">2025</span>
                                     <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Mjolnir Bikes For All</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Project Mjolnir bikes were raced at the Slieve Bloom MTB festival in Ireland. The barrier to entry into the sport is the technology and making this affordable allowed people with disabilities from Ireland to be able to compete in the first ever adaptive mountain bike race to be held there, essentially establishing the sport in the country. The team also won the NYU Tandon Research excellence exhibit award.
-</p>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">Project Mjolnir bikes were raced at the Slieve Bloom MTB festival in Ireland. The barrier to entry into the sport is the technology and making this affordable allowed people with disabilities from Ireland to be able to compete in the first ever adaptive mountain bike race to be held there, essentially establishing the sport in the country. The team also won the NYU Tandon Research excellence exhibit award.</p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/noelBike.jpg" class="timeline-card-image" alt="Noel Joyce Riding Mjolnir">
@@ -242,8 +297,7 @@
                                 <div>
                                     <span class="badge">2026</span>
                                     <h3 style="font-size: 22px; margin-bottom: 12px; color: var(--color-text-main);">Ever-Expanding Movement</h3>
-                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">The project is on track to reach 40 bikes built. The effort and work of the staff and students at NYU over the project's history has enabled this incredible goal to be achieved. The team also began design, development and deployment of the smaller version of the bike as well as several smaller projects established to address the diverse needs of those with different types of disability.
-</p>
+                                    <p class="text-muted" style="font-size: 14px; margin-bottom: 16px; font-weight: 500;">The project is on track to reach 40 bikes built. The effort and work of the staff and students at NYU over the project's history has enabled this incredible goal to be achieved. The team also began design, development and deployment of the smaller version of the bike as well as several smaller projects established to address the diverse needs of those with different types of disability.</p>
                                 </div>
                                 <div class="timeline-card-image-wrap">
                                     <img src="./galleryphotos/IMG_8294.jpeg" class="timeline-card-image" alt="Project Mjolnir at NYU Tandon">
@@ -263,14 +317,6 @@
                 <div class="section-header-content">
                     <span class="badge">Community News</span>
                     <h2 class="section-title">Featured <span class="text-accent">Stories</span></h2>
-                </div>
-                <div class="header-controls">
-                    <button class="scroll-btn" onclick="scrollStories(-1)" aria-label="Scroll left">
-                        <i data-lucide="chevron-left"></i>
-                    </button>
-                    <button class="scroll-btn" onclick="scrollStories(1)" aria-label="Scroll right">
-                        <i data-lucide="chevron-right"></i>
-                    </button>
                 </div>
             </div>
 
@@ -316,6 +362,21 @@
                         </div>
                     </div>
                 </a>
+            </div>
+
+            <!-- STORIES FOOTER CONTROLS & PROGRESS BAR -->
+            <div class="stories-footer-controls">
+                <div class="stories-progress-container">
+                    <div class="stories-progress-bar" id="storiesProgressBar"></div>
+                </div>
+                <div class="stories-scroll-btns">
+                    <button class="scroll-btn" onclick="scrollStories(-1)" aria-label="Scroll left">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn" onclick="scrollStories(1)" aria-label="Scroll right">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </section>

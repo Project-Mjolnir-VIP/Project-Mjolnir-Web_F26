@@ -1,4 +1,4 @@
-/* --- STORIES SCROLL CONTROL --- */
+/* --- STORIES SCROLL CONTROL & PROGRESS BAR --- */
 function scrollStories(direction) {
     const track = document.getElementById('storiesTrack');
     if (track) {
@@ -6,78 +6,107 @@ function scrollStories(direction) {
     }
 }
 
-/* --- 1. HOTSPOT DATA & LOGIC --- */
-const hotspots = [
-    {
-        id: 1,
-        title: "All Terrains Ready",
-        desc: "Over 300mm of ground clearance and 27.5/29 inch wheels ensures Mjolnir can traverse the roughest terrain",
-        img: "./featuresphotos/mjolnirBackwheel.JPEG"
-    },
-    {
-        id: 2,
-        title: "Performance Suspension",
-        desc: "Best in class suspension with up to 200mm of travel at the rear ensuring superior traction and impact isolation for the rider",
-        img: "./featuresphotos/MjolnirSuspension.JPG"
-    },
-    {
-        id: 3,
-        title: "Smooth Ride",
-        desc: "Jackshaft pivot for drive and suspension systems ensures 0 chain growth during movement keeping the suspension silky smooth over the rough stuff",
-        img: "./featuresphotos/chainTension.JPEG"
-    },
-    {
-        id: 4,
-        title: "Fully Customizable",
-        desc: "Interchangeable frame components lets you adjust the bike to your needs and component choices such as brakes, drivetrain, and wheel size",
-        img: "./featuresphotos/MjolnirCustomPart.JPG"
+function updateStoriesProgress() {
+    const track = document.getElementById('storiesTrack');
+    const progressBar = document.getElementById('storiesProgressBar');
+    if (track && progressBar) {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll > 0) {
+            const progress = (track.scrollLeft / maxScroll) * 100;
+            progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        } else {
+            progressBar.style.width = '100%';
+        }
     }
-];
-
-let currentIdx = 0;
-
-function selectHotspot(id) {
-    currentIdx = hotspots.findIndex(h => h.id === id);
-    renderHotspot();
 }
 
+/* --- 1. FEATURE BREAKDOWN HOTSPOT & RESPONSIVE LOGIC --- */
+let currentIdx = 0;
+
 function prevHotspot() {
-    currentIdx = (currentIdx - 1 + hotspots.length) % hotspots.length;
+    currentIdx = (currentIdx - 1 + 4) % 4;
     renderHotspot();
 }
 
 function nextHotspot() {
-    currentIdx = (currentIdx + 1) % hotspots.length;
+    currentIdx = (currentIdx + 1) % 4;
+    renderHotspot();
+}
+
+function selectHotspot(id) {
+    currentIdx = id - 1;
     renderHotspot();
 }
 
 function renderHotspot() {
-    const data = hotspots[currentIdx];
-    if (!data) return;
-
-    const numEl = document.getElementById('hotspot-num');
-    const titleEl = document.getElementById('hotspot-title');
-    const descEl = document.getElementById('hotspot-desc');
-    
-    if (numEl) numEl.innerText = `FEATURE ${data.id}`;
-    if (titleEl) titleEl.innerText = data.title;
-    if (descEl) descEl.innerText = data.desc;
-    
-    const imgElem = document.getElementById('hotspot-img');
-    if (imgElem && data.img) {
-        imgElem.src = data.img;
-    }
-
+    // 1. Update active pin indicator on canvas/mini-map
     [1, 2, 3, 4].forEach(i => {
         const pin = document.getElementById(`hotspot-pin-${i}`);
         if (pin && pin.parentElement) {
-            if (i === data.id) {
+            if (i === (currentIdx + 1)) {
                 pin.parentElement.classList.add('active');
             } else {
                 pin.parentElement.classList.remove('active');
             }
         }
     });
+
+    // 2. Update active feature card state
+    [1, 2, 3, 4].forEach(i => {
+        const card = document.getElementById(`feature-card-${i}`);
+        if (card) {
+            if (i === (currentIdx + 1)) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        }
+    });
+
+    // 3. Scroll to target feature card on mobile screens
+    if (window.innerWidth < 1024) {
+        const track = document.getElementById('featuresTrack');
+        const activeCard = document.getElementById(`feature-card-${currentIdx + 1}`);
+        if (track && activeCard) {
+            activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        }
+    }
+}
+
+function updateFeaturesProgress() {
+    const track = document.getElementById('featuresTrack');
+    const progressBar = document.getElementById('featuresProgressBar');
+    
+    if (track && progressBar && window.innerWidth < 1024) {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll > 0) {
+            const progress = (track.scrollLeft / maxScroll) * 100;
+            progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        } else {
+            progressBar.style.width = '100%';
+        }
+
+        // Sync pin highlights with manual touch scrolling
+        const cards = track.querySelectorAll('.feature-card');
+        const trackCenter = track.scrollLeft + track.clientWidth / 2;
+        cards.forEach((card, idx) => {
+            const cardLeft = card.offsetLeft;
+            const cardRight = cardLeft + card.offsetWidth;
+            if (trackCenter >= cardLeft && trackCenter <= cardRight) {
+                currentIdx = idx;
+                [1, 2, 3, 4].forEach(i => {
+                    const pin = document.getElementById(`hotspot-pin-${i}`);
+                    if (pin && pin.parentElement) {
+                        if (i === (idx + 1)) {
+                            pin.parentElement.classList.add('active');
+                        } else {
+                            pin.parentElement.classList.remove('active');
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
 
 /* --- 2. ACCURATE STICKY TIMELINE & SMOOTH PARALLAX LOGIC --- */
@@ -214,12 +243,28 @@ function closeContactModal() {
 
 // Global Event Listeners
 window.addEventListener('scroll', calculateTimelineTarget, { passive: true });
-window.addEventListener('resize', calculateTimelineTarget);
+window.addEventListener('resize', () => {
+    calculateTimelineTarget();
+    renderHotspot();
+});
 
 window.addEventListener('DOMContentLoaded', () => {
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
         try { lucide.createIcons(); } catch (err) { console.warn(err); }
     }
+    
+    const storiesTrack = document.getElementById('storiesTrack');
+    if (storiesTrack) {
+        storiesTrack.addEventListener('scroll', updateStoriesProgress, { passive: true });
+        updateStoriesProgress();
+    }
+
+    const featuresTrack = document.getElementById('featuresTrack');
+    if (featuresTrack) {
+        featuresTrack.addEventListener('scroll', updateFeaturesProgress, { passive: true });
+        updateFeaturesProgress();
+    }
+
     renderHotspot();
     calculateTimelineTarget();
 });
