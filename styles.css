@@ -518,7 +518,7 @@ button, input, select { font-family: inherit; }
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
-/* DESKTOP BEHAVIOR FOR FEATURE BREAKDOWN (SINGLE ACTIVE CARD) */
+/* DESKTOP BEHAVIOR FOR FEATURE BREAKDOWN */
 @media (min-width: 1024px) {
     .features-track-wrapper { width: 100%; }
     .features-track { display: block; }
@@ -528,7 +528,7 @@ button, input, select { font-family: inherit; }
     #features .section-header .header-controls { display: flex; }
 }
 
-/* MOBILE BEHAVIOR FOR FEATURE BREAKDOWN (HORIZONTAL SCROLL + MINI-MAP) */
+/* MOBILE BEHAVIOR FOR FEATURE BREAKDOWN */
 @media (max-width: 1023px) {
     #features .section-header .header-controls { display: none; }
 
@@ -610,6 +610,7 @@ button, input, select { font-family: inherit; }
     .feature-card { padding: 20px; padding-top: 115px; padding-right: 20px; }
 }
 
+/* DEVELOPMENT TIMELINE SECTION (RESPONSIVE STICKY SCROLL FOR DESKTOP & MOBILE) */
 .timeline-section {
     position: relative;
     height: 350vh;
@@ -766,15 +767,33 @@ button, input, select { font-family: inherit; }
 }
 
 @media (max-width: 768px) {
-    .timeline-section { height: auto; padding: 64px 0; }
-    .timeline-sticky-wrapper { position: relative; top: 0; height: auto; overflow: visible; padding: 0; }
-    .timeline-track-container { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
-    .timeline-track-container::-webkit-scrollbar { display: none; }
-    .timeline-track { transform: none !important; padding-left: 24px; padding-right: 24px; gap: 20px; }
-    .timeline-card-wrapper { scroll-snap-align: center; flex: 0 0 85vw; }
-    .timeline-grid { grid-template-columns: 1fr; gap: 16px; }
-    .timeline-card-image-wrap { height: 200px; }
-    .timeline-card-image { width: 100%; transform: none !important; }
+    .timeline-section {
+        height: 280vh;
+    }
+    .timeline-sticky-wrapper {
+        top: 70px;
+        height: calc(100vh - 70px);
+        padding: 16px 0;
+    }
+    .timeline-track {
+        padding-left: 24px;
+        padding-right: 40vw;
+        gap: 20px;
+    }
+    .timeline-card-wrapper {
+        flex: 0 0 calc(100vw - 48px);
+        max-width: calc(100vw - 48px);
+    }
+    .timeline-card {
+        padding: 24px;
+    }
+    .timeline-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .timeline-card-image-wrap {
+        height: 180px;
+    }
 }
 
 .featured-stories {

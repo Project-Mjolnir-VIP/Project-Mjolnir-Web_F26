@@ -109,7 +109,7 @@ function updateFeaturesProgress() {
     }
 }
 
-/* --- 2. ACCURATE STICKY TIMELINE & SMOOTH PARALLAX LOGIC --- */
+/* --- 2. UNIVERSAL STICKY TIMELINE & SMOOTH PARALLAX LOGIC --- */
 let currentX = 0;
 let targetX = 0;
 let isAnimationActive = false;
@@ -123,13 +123,14 @@ function calculateTimelineTarget() {
 
     if (!timelineSection || !stickyWrapper || !timelineTrack || cards.length === 0) return;
 
-    if (window.innerWidth <= 768) return;
-
     const rect = timelineSection.getBoundingClientRect();
     const stickyHeight = stickyWrapper.offsetHeight;
     const scrollDistance = timelineSection.offsetHeight - stickyHeight;
 
-    let scrolled = 80 - rect.top;
+    if (scrollDistance <= 0) return;
+
+    const headerOffset = window.innerWidth <= 768 ? 70 : 80;
+    let scrolled = headerOffset - rect.top;
     let progress = scrolled / scrollDistance;
     progress = Math.max(0, Math.min(1, progress));
 
@@ -191,22 +192,16 @@ function scrollToPhase(index) {
     const stickyWrapper = timelineSection ? timelineSection.querySelector('.timeline-sticky-wrapper') : null;
     if (!timelineSection || !stickyWrapper) return;
 
-    if (window.innerWidth <= 768) {
-        const cards = document.querySelectorAll('.timeline-card-wrapper');
-        if (cards[index]) {
-            cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-    } else {
-        const cards = document.querySelectorAll('.timeline-card-wrapper');
-        const totalCards = cards.length;
-        const scrollDistance = timelineSection.offsetHeight - stickyWrapper.offsetHeight;
-        const targetProgress = index / (totalCards - 1);
-        
-        const sectionTop = timelineSection.getBoundingClientRect().top + window.scrollY;
-        const targetScrollY = (sectionTop - 80) + (targetProgress * scrollDistance);
+    const cards = document.querySelectorAll('.timeline-card-wrapper');
+    const totalCards = cards.length;
+    const scrollDistance = timelineSection.offsetHeight - stickyWrapper.offsetHeight;
+    const targetProgress = index / (totalCards - 1);
+    
+    const sectionTop = timelineSection.getBoundingClientRect().top + window.scrollY;
+    const headerOffset = window.innerWidth <= 768 ? 70 : 80;
+    const targetScrollY = (sectionTop - headerOffset) + (targetProgress * scrollDistance);
 
-        window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
 }
 
 /* --- 3. FAQ ACCORDION LOGIC --- */
